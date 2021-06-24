@@ -1,2 +1,2 @@
-# calcite-ps
-Additional backbone to your daily workflow with PowerShell
+# tosh-ps
+TOys for you SHell. Or completely rubbish. It will enhance your development experience with PowerShell.
