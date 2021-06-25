@@ -1,14 +1,7 @@
 
 Describe 'Initialize-WorkspaceDb' {
     BeforeAll {
-        function Initialize-WorkspaceDb([string]$Path)
-        {
-            @(
-                @{
-                    workspaces = @{}
-                }
-            ) | ConvertTo-Json -depth 100 | Out-File ${Path}\tosh.json
-        }
+        . $PSScriptRoot\..\src\Initialize-WorkspaceDb.ps1
     }
 
     BeforeEach {
