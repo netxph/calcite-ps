@@ -48,4 +48,13 @@ Describe 'Save-Workspace' {
         $sut= Get-Content ./tosh.json | Out-String | ConvertFrom-Json
         $sut.workspaces.users | Should Be 'c:\overwrite'
     }
+
+    It 'Should get current directory when $path not supplied' {
+        Save-Workspace -Name users -Source ./tosh.json 
+
+        $path = Get-Location
+
+        $sut= Get-Content ./tosh.json | Out-String | ConvertFrom-Json
+        $sut.workspaces.users | Should Be $path.path
+    }
 }

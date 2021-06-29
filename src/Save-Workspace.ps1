@@ -4,6 +4,10 @@ function Save-Workspace([string]$Name, [string]$Path, [string]$Source)
         Initialize-WorkspaceDb -Source $Source
     }
 
+    if (!$Path) {
+        $Path = (Get-Location).Path
+    }
+
     $data = Get-Content $Source | Out-String | ConvertFrom-Json
 
     $table = @{}
