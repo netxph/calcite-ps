@@ -1,4 +1,7 @@
-function Save-Workspace([string]$Name, [string]$Path, [string]$Source)
+function Save-Workspace(
+    [string]$Name, 
+    [string]$Path, 
+    [string]$Source = '~/.config/tosh/tosh.json')
 {
     if ((Test-Path $Source) -eq $false) {
         Initialize-WorkspaceDb -Source $Source
