@@ -1,7 +1,6 @@
 Describe 'Initialize-WorkspaceDb' {
     BeforeAll {
-        . $PSScriptRoot\..\src\Initialize-WorkspaceDb.ps1
-        . $PSScriptRoot\..\src\Save-Workspace.ps1
+        . $PSScriptRoot\..\src\SaveWorkspace.ps1
     }
 
     BeforeEach {
