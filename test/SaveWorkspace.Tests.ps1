@@ -1,51 +1,32 @@
-Describe 'Initialize-WorkspaceDb' {
-    BeforeAll {
-        . $PSScriptRoot\..\src\SaveWorkspace.ps1
-    }
-
-    BeforeEach {
-        Remove-Item ./tosh.json -ErrorAction Ignore
-    }
-
-    It 'Should create file' {
-        Initialize-WorkspaceDb -Source ./tosh.json
-
-        Test-Path ./tosh.json | Should Be $true
-    }
-
-    It 'Should contain empty json' {
-        Initialize-WorkspaceDb -Source ./tosh.json
-
-        $sut = Get-Content ./tosh.json | Out-String | ConvertFrom-Json
-        $sut | Should Not Be $null
-    }
-}
-
 Describe 'Save-Workspace' {
+
+    BeforeAll {
+        . $PSScriptRoot/../src/SaveWorkspace.ps1
+    }
 
     BeforeEach {
         Remove-Item ./tosh.json -ErrorAction Ignore
     }
 
     It 'Should create source When not exist' {
-        Save-Workspace -Name users -Path c:\users -Source ./tosh.json
+        Save-Workspace -Name users -Path c:/users -Source ./tosh.json
 
         Test-Path ./tosh.json | Should Be $true
     }
 
     It 'Should save workspace' {
-        Save-Workspace -Name users -Path c:\users -Source ./tosh.json
+        Save-Workspace -Name users -Path c:/users -Source ./tosh.json
         
         $sut = Get-Content ./tosh.json | Out-String | ConvertFrom-Json
-        $sut.workspaces.users | Should Be 'c:\users'
+        $sut.workspaces.users | Should Be 'c:/users'
     }
 
     It 'Should overwrite workspace' {
-        Save-Workspace -Name users -Path c:\users -Source ./tosh.json
-        Save-Workspace -Name users -Path c:\overwrite -Source ./tosh.json
+        Save-Workspace -Name users -Path c:/users -Source ./tosh.json
+        Save-Workspace -Name users -Path c:/overwrite -Source ./tosh.json
 
         $sut= Get-Content ./tosh.json | Out-String | ConvertFrom-Json
-        $sut.workspaces.users | Should Be 'c:\overwrite'
+        $sut.workspaces.users | Should Be 'c:/overwrite'
     }
 
     It 'Should get current directory when $path not supplied' {
@@ -55,5 +36,14 @@ Describe 'Save-Workspace' {
 
         $sut= Get-Content ./tosh.json | Out-String | ConvertFrom-Json
         $sut.workspaces.users | Should Be $path.path
+    }
+
+    It 'Should append new when new $name is supplied' {
+        Save-Workspace -Name users -Source ./tosh.json
+        Save-Workspace -Name users1 -Source ./tosh.json
+
+        $sut = Get-Content ./tosh.json -Raw | ConvertFrom-Json
+
+        ($sut.workspaces | Get-Member -MemberType NoteProperty | Measure-Object).Count | Should Be 2
     }
 }

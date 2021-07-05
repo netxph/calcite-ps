@@ -1,3 +1,5 @@
+. $PSScriptRoot/Privates.ps1
+
 function Save-Workspace(
     [string]$Name, 
     [string]$Path, 
@@ -11,28 +13,9 @@ function Save-Workspace(
         $Path = (Get-Location).Path
     }
 
-    $data = Get-Content $Source | Out-String | ConvertFrom-Json
+    $data = Get-Content $Source -Raw | ConvertFrom-Json
+    $data.workspaces | Add-Member -MemberType NoteProperty -Name $Name -Value $Path -Force
 
-    $table = @{}
-    $properties = $data.workspaces.Properties 
-
-    if ($properties -ne $null) {
-        $properties | ForEach { $table[$_.Name] = $_.Value }
-    }
-
-    $table[$Name] = $Path
-    $data.workspaces = $table
-
+    
     $data | ConvertTo-Json -depth 100 | Out-File $Source
-}
-
-function Initialize-WorkspaceDb([string]$Source)
-{
-    New-Item -Path $Source -ItemType File -Force | Out-Null
-
-    @(
-        @{
-            workspaces = @{}
-        }
-    ) | ConvertTo-Json -depth 100 | Out-File $Source
 }
