@@ -2,7 +2,7 @@
 
 function Get-Workspace(
     [string]$Name,
-    [string]$Source)
+    [string]$Source = '~/.config/tosh/tosh.json')
 {
     $data = Get-Content $Source -Raw | ConvertFrom-Json
 
