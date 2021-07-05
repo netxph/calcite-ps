@@ -22,7 +22,6 @@ Describe 'Get-Workspace' {
         Save-Workspace -Name users1 -Path c:/users -Source ./tosh.json
 
         $sut = Get-Workspace -Source ./tosh.json
-        Write-Host $sut
         $sut.Count | Should Be 2
     }
 

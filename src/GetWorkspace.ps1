@@ -10,6 +10,11 @@ function Get-Workspace(
         return $data.workspaces.$Name
     }
 
-    $table = ${}
+    $table = @{}
+    $data.workspaces.PSObject.Members | 
+        Where-Object MemberType -eq NoteProperty | 
+        ForEach-Object { $table[$_.Name] = $_.Value }
+
+    return $table
     
 }
