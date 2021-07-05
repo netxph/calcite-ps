@@ -17,4 +17,13 @@ Describe 'Get-Workspace' {
         $sut | Should Be "c:/users"
     }
 
+    It 'Should return all when $name is not supplied' {
+        Save-Workspace -Name users -Path c:/users -Source ./tosh.json
+        Save-Workspace -Name users1 -Path c:/users -Source ./tosh.json
+
+        $sut = Get-Workspace -Source ./tosh.json
+        Write-Host $sut
+        $sut.Count | Should Be 2
+    }
+
 }

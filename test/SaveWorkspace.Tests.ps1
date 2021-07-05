@@ -37,4 +37,13 @@ Describe 'Save-Workspace' {
         $sut= Get-Content ./tosh.json | Out-String | ConvertFrom-Json
         $sut.workspaces.users | Should Be $path.path
     }
+
+    It 'Should append new when new $name is supplied' {
+        Save-Workspace -Name users -Source ./tosh.json
+        Save-Workspace -Name users1 -Source ./tosh.json
+
+        $sut = Get-Content ./tosh.json -Raw | ConvertFrom-Json
+
+        ($sut.workspaces | Get-Member -MemberType NoteProperty | Measure-Object).Count | Should Be 2
+    }
 }

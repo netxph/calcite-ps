@@ -6,5 +6,10 @@ function Get-Workspace(
 {
     $data = Get-Content $Source -Raw | ConvertFrom-Json
 
-    return $data.workspaces.$Name
+    if($Name -ne '') {
+        return $data.workspaces.$Name
+    }
+
+    $table = ${}
+    
 }
